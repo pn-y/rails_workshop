@@ -1,6 +1,7 @@
 class Web::Moderation::ArticlesController < Web::Moderation::ApplicationController
   def index
-    @q = Article.ransack(params[:q])
+    default_search = { state_eq: 'on_moderation' }
+    @q = Article.ransack(params[:q] || default_search)
     @articles = @q.result
   end
 
@@ -9,11 +10,11 @@ class Web::Moderation::ArticlesController < Web::Moderation::ApplicationControll
   end
 
   def edit
-    @article = find_article
+    @article = ModerationArticleForm.find(params[:id])
   end
 
   def update
-    @article = find_article
+    @article = ModerationArticleForm.find(params[:id])
 
     if @article.update(article_params)
       redirect_to moderation_article_url(@article)
@@ -33,6 +34,6 @@ class Web::Moderation::ArticlesController < Web::Moderation::ApplicationControll
   end
 
   def article_params
-    params.require(:article).permit(:title, :text, :state_event)
+    params.require(:moderation_article_form).permit(:title, :text, :state_event, :category_id)
   end
 end

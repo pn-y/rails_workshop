@@ -12,7 +12,7 @@
     <th><%= sort_link(@q, :title, default_order: :asc)%></th>
     <th><%= sort_link(@q, :text)%></th>
   </tr>
-  <%= link_to 'New article', new_article_path %>
+
   <% @articles.each do |article| %>
     <tr>
       <td><%= article.title %></td>

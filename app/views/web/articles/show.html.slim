@@ -1,0 +1,19 @@
+p
+  strong Title:
+  = @article.title
+
+p
+  strong Text:
+  = @article.text
+
+h2 Comments
+= render partial: "web/articles/comments/comment", collection: @article.comments
+
+h2 Linkls
+= render partial: "web/articles/links/link", collection: @article.links
+
+h2 Add a comment:
+= render partial: 'web/articles/comments/form'
+
+= link_to 'Edit', edit_article_path(@article), class: 'btn btn-default'
+= link_to 'Back', articles_path, class: 'btn btn-default'
