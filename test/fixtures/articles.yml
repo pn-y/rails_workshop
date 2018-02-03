@@ -1,9 +1,10 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  title: MyString
-  text: MyText
+published:
+  title: $LABEL
+  text: $LABEL
+  category: nature
 
-two:
-  title: MyString
-  text: MyText
+draft:
+  title: $LABEL
+  text: $LABEL

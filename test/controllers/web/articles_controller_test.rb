@@ -1,15 +1,6 @@
 require 'test_helper'
 
 class Web::ArticlesControllerTest < ActionDispatch::IntegrationTest
-  def auth_headers
-    user = 'viraj'
-    pw = 'password'
-    {
-      'HTTP_AUTHORIZATION' =>
-      ActionController::HttpAuthentication::Basic.encode_credentials(user,pw)
-    }
-  end
-
   test "gets index" do
     get articles_url
 
@@ -17,15 +8,15 @@ class Web::ArticlesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "gets show" do
-    article = articles(:one)
+    article = articles(:published)
 
-    get article_url(article.id)
+    get article_url(article)
 
     assert_response :success
   end
 
   test "gets new" do
-    get new_article_url, headers: auth_headers
+    get new_article_url
 
     assert_response :success
   end
@@ -33,33 +24,33 @@ class Web::ArticlesControllerTest < ActionDispatch::IntegrationTest
   test "posts create" do
     article_attrs = { title: 'title' }
 
-    assert_difference('Article.count', 1) do
-      post articles_url, params: { article: article_attrs }, headers: auth_headers
-    end
+    post articles_url, params: { article: article_attrs }
+
+    new_article = Article.find_by(title: 'title')
+    assert(new_article.persisted?)
   end
 
   test "gets edit" do
-    article = articles(:one)
+    article = articles(:published)
 
-    get edit_article_url(article.id), headers: auth_headers
+    get edit_article_url(article)
 
     assert_response :success
   end
 
   test "patch update" do
-    article = articles(:one)
+    article = articles(:published)
 
-    patch article_url(article.id), params: { article: { title: 'new_title' } }, headers: auth_headers
+    patch article_url(article), params: { article: { title: 'new_title' } }
 
-    updated_article = Article.find(article.id)
-    assert_equal(updated_article.title, 'new_title')
+    assert { article.reload.title = 'new_title' }
   end
 
   test 'deteles destroy' do
-    article = articles(:one)
+    article = articles(:published)
 
-    assert_difference('Article.count', -1) do
-      delete article_url(article.id), headers: auth_headers
-    end
+    delete article_url(article)
+
+    assert { Article.find_by(id: article.id).nil? }
   end
 end
