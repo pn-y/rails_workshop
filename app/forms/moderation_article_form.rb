@@ -1,3 +1,3 @@
 class ModerationArticleForm < Article
-  validates :category_id, presence: true
+  validates :category, presence: true
 end

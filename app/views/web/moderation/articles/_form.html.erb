@@ -1,6 +1,6 @@
 <%= simple_form_for @article, url: moderation_article_path(@article) do |form|%>
   <%= form.input :state_event, as: :state_event, required: false %>
-  <%= form.input :category_id, collection: Article::Category.pluck(:id, :title) %>
+  <%= form.association :category, collection: Article::Category.pluck(:title, :id), required: false %>
 
   <%= form.button :submit %>
 <%end%>
