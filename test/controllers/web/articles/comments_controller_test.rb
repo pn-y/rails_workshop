@@ -1,33 +1,23 @@
 require 'test_helper'
 
 class Web::Articles::CommentsControllerTest < ActionDispatch::IntegrationTest
-  def auth_headers
-    user = 'viraj'
-    pw = 'password'
-    {
-      'HTTP_AUTHORIZATION' =>
-      ActionController::HttpAuthentication::Basic.encode_credentials(user,pw)
-    }
-  end
-
   setup do
-    @article = articles(:one)
+    @article = articles(:published)
   end
 
   test "posts create" do
-    assert_difference('Article::Comment.count', 1) do
-      post article_comments_url(@article.id), params: { article_comment: { body: 'body', commentor: 'commentor' } }
-    end
+    article_comment_attrs = { body: 'body', commentor: 'commentor' }
+    post article_comments_url(@article.id), params: { article_comment: article_comment_attrs }
 
     comment = @article.comments.find_by(body: 'body', commentor: 'commentor')
-    assert_equal(comment.present?, true)
+    assert(comment.persisted?)
   end
 
   test 'deletes destroy' do
-    comment = @article.comments.first
+    comment = article_comments(:one)
 
-    assert_difference('Article::Comment.count', -1) do
-      delete article_comment_url(@article.id, comment.id), headers: auth_headers
-    end
+    delete article_comment_url(@article.id, comment.id)
+
+    assert { @article.comments.find_by(comment.id).nil? }
   end
 end

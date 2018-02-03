@@ -1,6 +1,4 @@
 class Web::Articles::CommentsController < Web::Articles::ApplicationController
-  http_basic_authenticate_with name: "viraj", password: "password", only: :destroy
-
   def create
     @article = resource_article
     @comment = @article.comments.create(comment_params)
