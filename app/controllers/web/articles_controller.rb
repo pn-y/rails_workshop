@@ -5,7 +5,7 @@ class Web::ArticlesController < Web::ApplicationController
   end
 
   def show
-    @article = Article.find(params[:id])
+    @article = find_article
   end
 
   def new
@@ -13,7 +13,7 @@ class Web::ArticlesController < Web::ApplicationController
   end
 
   def edit
-    @article = Article.find(params[:id])
+    @article = find_article
   end
 
   def create
@@ -27,7 +27,7 @@ class Web::ArticlesController < Web::ApplicationController
   end
 
   def update
-    @article = Article.find(params[:id])
+    @article = find_article
 
     if @article.update(article_params)
       redirect_to @article
@@ -37,13 +37,25 @@ class Web::ArticlesController < Web::ApplicationController
   end
 
   def destroy
-    @article = Article.find(params[:id])
+    @article = find_article
     @article.destroy
 
     redirect_to articles_path
   end
 
+  def moderate
+    article = find_article
+    article.moderate
+
+    redirect_to article
+  end
+
   private
+
+  def find_article
+    Article.find(params[:id])
+  end
+
   def article_params
     params.require(:article).permit(:title, :text)
   end

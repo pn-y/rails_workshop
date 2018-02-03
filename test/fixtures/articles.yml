@@ -4,7 +4,14 @@ published:
   title: $LABEL
   text: $LABEL
   category: nature
+  state: published
 
 draft:
   title: $LABEL
   text: $LABEL
+  state: draft
+
+on_moderation:
+  title: $LABEL
+  text: $LABEL
+  state: on_moderation

@@ -1,0 +1,24 @@
+<h1>Articles: </h1>
+
+<%= search_form_for @q, url: moderation_articles_path do |f| %>
+  <%= f.label :state_eq %>
+  <%= f.select :state_eq, options_from_collection_for_select(Article.state_machine.states, 'name', 'human_name', params[:q] && params[:q][:state_eq]), include_blank: true %>
+
+  <%= f.submit %>
+<% end %>
+
+<table>
+  <tr>
+    <th><%= sort_link(@q, :title, default_order: :asc)%></th>
+    <th><%= sort_link(@q, :text)%></th>
+  </tr>
+  <%= link_to 'New article', new_article_path %>
+  <% @articles.each do |article| %>
+    <tr>
+      <td><%= article.title %></td>
+      <td><%= article.text %></td>
+      <td><%= link_to 'Show', moderation_article_path(article) %></td>
+      <td><%= link_to 'Edit', edit_moderation_article_path(article) %></td>
+    </tr>
+  <% end %>
+</table>

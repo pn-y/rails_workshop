@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class Web::ArticlesControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @article = articles(:draft)
+  end
+
   test "gets index" do
     get articles_url
 
@@ -8,9 +12,7 @@ class Web::ArticlesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "gets show" do
-    article = articles(:published)
-
-    get article_url(article)
+    get article_url(@article)
 
     assert_response :success
   end
@@ -31,26 +33,26 @@ class Web::ArticlesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "gets edit" do
-    article = articles(:published)
-
-    get edit_article_url(article)
+    get edit_article_url(@article)
 
     assert_response :success
   end
 
   test "patch update" do
-    article = articles(:published)
+    patch article_url(@article), params: { article: { title: 'new_title' } }
 
-    patch article_url(article), params: { article: { title: 'new_title' } }
-
-    assert { article.reload.title = 'new_title' }
+    assert { @article.reload.title = 'new_title' }
   end
 
   test 'deteles destroy' do
-    article = articles(:published)
+    delete article_url(@article)
 
-    delete article_url(article)
+    assert { !Article.exists?(@article.id) }
+  end
 
-    assert { Article.find_by(id: article.id).nil? }
+  test 'posts moderate' do
+    post moderate_article_url(@article)
+
+    assert { @article.reload.on_moderation? }
   end
 end
