@@ -24,11 +24,13 @@ class Web::ArticlesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "posts create" do
-    article_attrs = { title: 'title' }
+    article_attrs = { title: 'title', links_attributes: [{ url: "some url" }]}
 
     post articles_url, params: { article: article_attrs }
 
     new_article = Article.find_by(title: 'title')
+
+    assert(new_article.links.any?)
     assert(new_article.persisted?)
   end
 

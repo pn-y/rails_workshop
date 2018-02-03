@@ -1,0 +1,21 @@
+= simple_form_for @article, local: true do |form|
+  - if @article.errors.any?
+    #error_explanation
+      h2
+        = pluralize(@article.errors.count, "error")
+        prohibitet
+        this article from being saved:
+      ul
+        - @article.errors.full_messages.each do |msg|
+          li = msg
+  = form.input :title
+  = form.input :text
+
+  = simple_fields_for :links do |link|
+  .links
+    = link_to_add_association 'add link', form, :links
+
+  = form.button :submit
+
+  - if @article.persisted?
+    = link_to 'Moderate', moderate_article_path(@article), method: :post, class: 'button'
