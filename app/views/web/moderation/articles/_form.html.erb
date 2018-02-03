@@ -25,13 +25,17 @@
   </p>
 
   <p>
-    <%= form.submit %>
+    <%= form.label :category_id %><br>
+    <%= form.collection_select :category_id, Article::Category.all, :id, :title %>
   </p>
 
-  <% if @article.persisted?%>
-    <p>
-      <%= link_to 'Moderate', moderate_article_path(@article), method: :post %>
-    </p>
-  <% end %>
+  <p>
+    <%= form.label :state_event %><br>
+    <%= form.select :state_event, @article.state_events, include_blank: true %>
+  </p>
+
+  <p>
+    <%= form.submit %>
+  </p>
 
 <% end %>

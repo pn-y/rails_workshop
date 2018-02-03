@@ -9,6 +9,11 @@
   </head>
 
   <body>
-    <%= yield %>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <%= link_to 'All Articles', articles_path %>
+      &nbsp;|&nbsp;
+      <%= link_to 'Articles on moderation', moderation_articles_path(q: { state_eq: :on_moderation }) %>
+    </nav>
+      <%= yield %>
   </body>
 </html>

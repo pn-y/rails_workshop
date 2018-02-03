@@ -5,6 +5,13 @@ Rails.application.routes.draw do
       scope module: :articles do
         resources :comments
       end
+      member do
+        post :moderate
+      end
+    end
+
+    namespace :moderation do
+      resources :articles, only: [:index, :show, :edit, :update]
     end
   end
 

@@ -16,8 +16,8 @@ class Web::Articles::CommentsControllerTest < ActionDispatch::IntegrationTest
   test 'deletes destroy' do
     comment = article_comments(:one)
 
-    delete article_comment_url(@article.id, comment.id)
+    delete article_comment_url(comment.article_id, comment.id)
 
-    assert { @article.comments.find_by(comment.id).nil? }
+    assert { !comment.article.comments.exists?(comment.id) }
   end
 end
