@@ -27,12 +27,14 @@ class Web::Moderation::ArticlesControllerTest < ActionDispatch::IntegrationTest
     category = article_categories(:nature)
     patch moderation_article_url(@article), params: { moderation_article_form: { state_event: 'publish',  category_id: category.id} }
 
-    assert { @article.reload.published? }
+    updated_article = @article.reload
+    assert { updated_article.published? }
   end
 
   test "do not patch update" do
     patch moderation_article_url(@article), params: { moderation_article_form: { state_event: 'publish' } }
 
-    assert { !@article.reload.published? }
+    updated_article = @article.reload
+    assert { !updated_article.published? }
   end
 end

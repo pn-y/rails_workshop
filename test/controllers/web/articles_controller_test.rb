@@ -43,7 +43,8 @@ class Web::ArticlesControllerTest < ActionDispatch::IntegrationTest
   test "patch update" do
     patch article_url(@article), params: { article: { title: 'new_title' } }
 
-    assert { @article.reload.title = 'new_title' }
+    updated_article = @article.reload
+    assert { updated_article.title == 'new_title' }
   end
 
   test 'deteles destroy' do
@@ -55,6 +56,7 @@ class Web::ArticlesControllerTest < ActionDispatch::IntegrationTest
   test 'patch moderate' do
     patch moderate_article_url(@article)
 
-    assert { @article.reload.on_moderation? }
+    updated_article = @article.reload
+    assert { updated_article.on_moderation? }
   end
 end
