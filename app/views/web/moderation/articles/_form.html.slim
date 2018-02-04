@@ -1,0 +1,5 @@
+= simple_form_for @article, url: moderation_article_path(@article) do |form|
+  = form.input :state_event, as: :state_event, required: false
+  = form.association :category
+
+  = form.button :submit

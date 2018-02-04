@@ -19,4 +19,4 @@
   = form.button :submit
 
   - if @article.persisted?
-    = link_to 'Moderate', moderate_article_path(@article), method: :post, class: 'button'
+    = link_to 'Moderate', moderate_article_path(@article), method: :patch, class: 'button'

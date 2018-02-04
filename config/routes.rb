@@ -6,7 +6,7 @@ Rails.application.routes.draw do
         resources :comments
       end
       member do
-        post :moderate
+        patch :moderate
       end
     end
 

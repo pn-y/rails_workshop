@@ -52,8 +52,8 @@ class Web::ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert { !Article.exists?(@article.id) }
   end
 
-  test 'posts moderate' do
-    post moderate_article_url(@article)
+  test 'patch moderate' do
+    patch moderate_article_url(@article)
 
     assert { @article.reload.on_moderation? }
   end
