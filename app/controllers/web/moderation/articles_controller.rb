@@ -16,7 +16,7 @@ class Web::Moderation::ArticlesController < Web::Moderation::ApplicationControll
   def update
     @article = ModerationArticleForm.find(params[:id])
 
-    if @article.update(article_params)
+    if @article.update(params[:moderation_article_form])
       redirect_to moderation_article_url(@article)
     else
       render 'edit'
@@ -31,9 +31,5 @@ class Web::Moderation::ArticlesController < Web::Moderation::ApplicationControll
 
   def find_article
     articles.find(params[:id])
-  end
-
-  def article_params
-    params.require(:moderation_article_form).permit(:title, :text, :state_event, :category_id)
   end
 end
